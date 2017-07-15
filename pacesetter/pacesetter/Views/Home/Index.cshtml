@@ -1,0 +1,115 @@
+﻿@using pacesetter.Models
+@using System.Linq
+@model IndexViewModel
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Open Bootstrap Modal on Page Load</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/bootstrap-theme.min.css">
+    <script src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+        @if (ViewBag.data == "Empty")
+        {
+            <script type="text/javascript">
+                $(document).ready(function () {
+                    $("#myModal").modal('show');
+                });
+            </script>
+        }
+</head>
+<body>
+    <br /><br />
+    <div class="row">
+        <div class="col-sm-4 col-md-4">
+            <div class="panel panel-primary" style="width: 300px;">
+                <div class="panel-heading">
+                    <center><h3 class="panel-title">Training Categories</h3></center>
+                </div>
+                <div class="panel-body">
+                    <!--search box-->
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="input-group" style="width: 250px;">
+                                <input type="text" class="form-control" placeholder="Search for...">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default" type="button">Go!</button>
+                                </span>
+                            </div><!-- /input-group -->
+                        </div><!-- /.col-lg-6 -->
+                    </div><!-- /.row -->
+                    <!--Menu-->
+                    <br />
+                    <div class="row">
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <span class="badge">3</span>
+                                Introduction
+                            </li>
+                            <li class="list-group-item">
+                                <span class="badge">1</span>
+                                Foundation Class
+                            </li>
+                            <li class="list-group-item">
+                                <span class="badge">1</span>
+                                Leadership Class
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--Videos Playlist-->
+        <div class="container">
+            <div class="col-sm-4 col-md-4">
+                <div class="panel panel-default" style="width: 700px;">
+                    <div class="panel-body">
+                        <!--Panel videos-->
+                        <div class="row">
+                            <!--Video 1-->
+                            <div class="col-sm-6 col-md-4">
+                                <div class="thumbnail">
+                                    <img src="~/Content/img/thumbnaildiv.png" alt="...">
+                                    <div class="caption">
+                                        <h5>Discipleship 101</h5>
+                                        <p>Video about winning disciples</p>
+                                        <p><a href="#" class="btn btn-primary" role="button">Watch</a> <a href="#" class="btn btn-default" role="button">Save</a></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--Video 2-->
+                            <div class="col-sm-6 col-md-4">
+                                <div class="thumbnail">
+                                    <img src="~/Content/img/thumbnaildiv.png" alt="...">
+                                    <div class="caption">
+                                        <h5>Foundation Class 1</h5>
+                                        <p>Video about Foundation Class</p>
+                                        <p><a href="#" class="btn btn-primary" role="button">Watch</a> <a href="#" class="btn btn-default" role="button">Save</a></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--Video 3-->
+                            <div class="col-sm-6 col-md-4">
+                                <div class="thumbnail">
+                                    <img src="~/Content/img/thumbnaildiv.png" alt="...">
+                                    <div class="caption">
+                                        <h5>Leadership Class 1</h5>
+                                        <p>Video about Leadership Class</p>
+                                        <p><a href="#" class="btn btn-primary" role="button">Watch</a> <a href="#" class="btn btn-default" role="button">Save</a></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--pager-->
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

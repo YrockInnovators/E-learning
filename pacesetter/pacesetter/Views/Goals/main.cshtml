@@ -1,0 +1,148 @@
+﻿@using pacesetter.Models
+@model GoalsModel
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Open Bootstrap Modal on Page Load</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/bootstrap-theme.min.css">
+    <script src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+
+</head>
+<body>
+    <div class="row">
+        <br />
+        <br />
+        <div class="col-lg-3">
+            <a type="button"
+               class="btn btn-group-vertical btn-default"
+               href="#article-editor"
+               data-toggle="modal">Add Goal</a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-offset-3">
+            <h2 style="color: #ffffff">My Goals</h2>
+            <table class="table table-striped">
+                @foreach (var goal in Model.GoalsList)
+            {
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="panel panel-info">
+                                    <div class="panel-heading">
+                                        <ul class="nav nav-pills nav-justified">
+                                            <li class="nav-item">@goal.GoalName</li>
+                                            <li class="nav-item"><div class="col-md-offset-10">@goal.GoalCategoryName</div></li>
+                                        </ul>
+                                    </div>
+                                    <div class="panel-body">
+                                        <div>@goal.GoalDescription</div>
+                                        <!----<div class="col-lg-offset-11">
+                                            <a type="button"
+                                               class="btn btn-group-vertical btn-default"
+                                               href="#"
+                                               onclick="editGoal(goalid)"
+                                               data-toggle="modal">Edit</a>
+                                        </div>-->
+                                        <br /> <br />
+                                        <button type="button" class="col-md-offset-11 btn editor-container" data-id="@goal.Goal_id"
+                                                data-toggle="modal" data-target="#editor-container">
+                                            Edit
+                                        </button>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                }
+            </table>
+        </div>
+    </div>
+
+    <!--Add Modal-->
+    <div class="row">
+        <div class="modal fade" id="article-editor" role="dialog" style="width: 600px; margin:30px auto;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <a class="close" data-dismiss="modal">&times;</a>
+                    <h3>Create Goal</h3>
+                </div>
+                <div class="modal-body">
+                    @using (Html.BeginForm())
+                    {
+                        <div class="form-group">
+                            <label class="control-label" for="inputLarge">Name</label>
+                            @Html.TextBoxFor(m => m.GoalName, new { @class = "form-control", required = "required" })
+                            @Html.ValidationMessageFor(m => m.GoalName)
+                        </div>
+                        <div class="form-group">
+                            <label for="select" class="col-lg-2 control-label">Category</label>
+                            <div class="col-lg-10">
+                                @Html.DropDownListFor(m => m.CategoryId, Model.CategoryList, "Select Category", new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-group">
+                                <label for="textArea" class="col-lg-2 control-label">To Do's</label>
+                                <div class="col-lg-10">
+                                    @Html.TextAreaFor(m => m.GoalDescription, new { @class = "form-control", required = "required" })
+                                    @Html.ValidationMessageFor(m => m.GoalDescription)
+                                </div>
+                            </div>
+                            @Html.ValidationSummary()
+                        </div>
+                        <div class="modal-footer">
+                            <input type="submit" class="btn btn-default" value="submit" />
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Editing for Modal-->
+    <div class="row">
+       <div class="modal fade" id="editor-container" role="dialog" aria-labelledby="editor-title" style="width: 600px; margin:40px auto;">
+           <div class="modal-dialog" role="document">
+               <div class="modal-content" id="editor-content-container">
+               </div>
+           </div>
+       </div>
+    </div>
+    </body>
+</html>
+
+@section scripts
+{
+    <script type="text/javascript">
+        $(function () {
+            $('.editor-container').click(function () {
+                var pid = $(this).attr('data-id');
+                var url = "/Goals/edit/" + pid;
+                $.ajax({
+                    url: url,
+                    cache: false,
+                    success: function (data) {
+                        $('#editor-content-container').html(data);
+                        $('#editor-container').modal('show');
+                    }
+                });
+            });
+
+            $('#editor-container').on('hidden.bs.modal', function () {
+                $(this).removeData('bs.modal');
+            });
+        });
+
+        function success(data, status, xhr) {
+            $('#editor-container').modal('hide');
+        }
+
+        function failure(xhr, status, error) {
+            $('#editor-container').modal('show');
+        }
+    </script>
+}

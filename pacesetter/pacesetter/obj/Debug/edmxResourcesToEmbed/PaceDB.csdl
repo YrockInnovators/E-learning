@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="pacesetter_master_dbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="goal_category">
+    <Key>
+      <PropertyRef Name="Category_id" />
+    </Key>
+    <Property Name="Category_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CategoryName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="CategoryShortName" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="goal_table" Relationship="Self.FK_goal_table_goal_category" FromRole="goal_category" ToRole="goal_table" />
+  </EntityType>
+  <EntityType Name="goal_table">
+    <Key>
+      <PropertyRef Name="Goal_id" />
+    </Key>
+    <Property Name="Goal_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="GoalName" Type="String" MaxLength="300" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="GoalDescription" Type="String" MaxLength="300" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="GoalCategoryId" Type="Int32" />
+    <Property Name="GoalCategoryName" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+    <Property Name="UserId" Type="Int32" />
+    <NavigationProperty Name="goal_category" Relationship="Self.FK_goal_table_goal_category" FromRole="goal_table" ToRole="goal_category" />
+  </EntityType>
+  <EntityType Name="sysdiagram">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="user_table">
+    <Key>
+      <PropertyRef Name="User_id" />
+    </Key>
+    <Property Name="User_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Firstname" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Lastname" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="EmailAddress" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Role" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Contact_number" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_goal_table_goal_category">
+    <End Role="goal_category" Type="Self.goal_category" Multiplicity="0..1" />
+    <End Role="goal_table" Type="Self.goal_table" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="goal_category">
+        <PropertyRef Name="Category_id" />
+      </Principal>
+      <Dependent Role="goal_table">
+        <PropertyRef Name="GoalCategoryId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="pacesetter_master_dbEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="goal_category" EntityType="Self.goal_category" />
+    <EntitySet Name="goal_table" EntityType="Self.goal_table" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+    <EntitySet Name="user_table" EntityType="Self.user_table" />
+    <AssociationSet Name="FK_goal_table_goal_category" Association="Self.FK_goal_table_goal_category">
+      <End Role="goal_category" EntitySet="goal_category" />
+      <End Role="goal_table" EntitySet="goal_table" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

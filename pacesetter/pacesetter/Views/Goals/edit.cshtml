@@ -1,0 +1,36 @@
+﻿@using pacesetter.Models
+@model GoalsModel
+
+
+    <div>
+        <a class="close" data-dismiss="modal">&times; &nbsp;</a>
+        <h3>&nbsp; Edit Goal</h3>
+    </div>
+    @using (Html.BeginForm())
+    { 
+    <div class="form-group">
+        <label class="col-lg-2 control-label" for="inputLarge">Name</label>
+        @Html.TextBoxFor(m => m.GoalName, new { @class = "form-control", required = "required" })
+        @Html.ValidationMessageFor(m => m.GoalName)
+    </div>
+    <div class="form-group">
+        <label for="select" class="col-lg-2 control-label">Category</label>
+        <div class="col-lg-10">
+            @Html.DropDownListFor(m => m.CategoryId, Model.CategoryList, "Select Category", new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="form-group">
+            <label for="textArea" class="col-lg-2 control-label">To Do's</label>
+            <div class="col-lg-10">
+                @Html.TextAreaFor(m => m.GoalDescription, new { @class = "form-control", required = "required" })
+                @Html.ValidationMessageFor(m => m.GoalDescription)
+            </div>
+        </div>
+        @Html.ValidationSummary()
+    </div>
+    <div>
+    <input type="submit" class="col-md-offset-9 btn btn-default" value="submit" />
+    </div>
+     }
+    <br />
